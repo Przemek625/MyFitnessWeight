@@ -18,8 +18,14 @@ class RegistrationForm(models.ModelForm):
         if password != password_confirmation:
             raise forms.ValidationError("Password and Repeat Password fields do not match!")
 
+        return password_confirmation
+
     def save(self, commit=True):
-        pass
+        custom_user = super(RegistrationForm, self).save(commit=False)
+        custom_user.set_password(self.cleaned_data.get('password'))
+        custom_user.save()
+
+
 
 
 
